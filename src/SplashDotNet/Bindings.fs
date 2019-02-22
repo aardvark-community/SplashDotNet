@@ -23,8 +23,17 @@ module private SplashNative =
     extern void CloseSplash(uint32 ptr);
 
 
-type Splash =
+[<AbstractClass; Sealed>]
+type Splash private() =
+
+    static let init() =
+        let f = Path.Combine(Environment.CurrentDirectory, "Splash.Native.dll")
+        if not (File.Exists f) then
+            Aardvark.UnpackNativeDependencies(typeof<Splash>.Assembly)
+
+
     static member show (image : PixImage) =
+        init()
         match Environment.OSVersion.Platform with
         | PlatformID.Unix | PlatformID.MacOSX ->  
             { new IDisposable with
@@ -38,9 +47,9 @@ type Splash =
             }
 
     static member show (file : string) =
+        init()
         let f = Path.Combine(Environment.CurrentDirectory, "DevIL.dll")
         if not (File.Exists f) then
-            printfn "unpack"
             Aardvark.UnpackNativeDependencies(typeof<DevILSharp.AttributeBits>.Assembly)
         let img = PixImage.Create file
         Splash.show img
