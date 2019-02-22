@@ -112,14 +112,14 @@ static DWORD WINAPI MyThreadFunction(LPVOID lpParam)
 	while (GetMessage(&msg, 0, 0, 0))
 	{
 		//printf("msg: %x\n", msg.message);
-		if (msg.message == 4321) break;
+		if (msg.message == WM_CLOSE) break;
 
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 	CloseWindow(hwnd);
 	DestroyWindow(hwnd);
-	delete state->bitmap;
+	DeleteObject(state->bitmap);
 	delete state;
 
 	return 0;
@@ -151,7 +151,8 @@ DllExport(DWORD) ShowSplash(int w, int h, int bits, const void* data)
 	return threadId;
 }
 DllExport(void) CloseSplash(DWORD threadId)
-{
-	PostThreadMessage(threadId, 4321, 0, 0);
+{	
+	if (!threadId) return;
+	PostThreadMessage(threadId, WM_CLOSE, 0, 0);
 	//printf("worked: %d %d\n", threadId, worked);
 }

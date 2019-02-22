@@ -13,5 +13,6 @@ let main argv =
     d.Dispose()
     printfn "closed"
     Thread.Sleep(3000) 
+    printfn "yeah"
     //thread.Join()
     0
