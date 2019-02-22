@@ -1,0 +1,6 @@
+type project
+id SplashDotNet
+authors krauthaufen
+owners krauthaufen
+description
+    Splash Screen for DotNet Core
