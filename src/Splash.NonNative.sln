@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Splash", "Splash\Splash.fsproj", "{7368E343-5BB8-4E41-B74A-34E6BC8E534B}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SplashDotNet", "SplashDotNet\SplashDotNet.fsproj", "{4D428FE6-E295-412E-A3AF-DC6248ED8988}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7368E343-5BB8-4E41-B74A-34E6BC8E534B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7368E343-5BB8-4E41-B74A-34E6BC8E534B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7368E343-5BB8-4E41-B74A-34E6BC8E534B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7368E343-5BB8-4E41-B74A-34E6BC8E534B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D428FE6-E295-412E-A3AF-DC6248ED8988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D428FE6-E295-412E-A3AF-DC6248ED8988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D428FE6-E295-412E-A3AF-DC6248ED8988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D428FE6-E295-412E-A3AF-DC6248ED8988}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {309290BE-C0C3-40B6-ABA7-A520693337ED}
+	EndGlobalSection
+EndGlobal

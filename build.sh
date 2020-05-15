@@ -1,17 +1,9 @@
 #!/bin/bash
 
-if [ -f .paket/paket.exe ]; then
-    mono .paket/paket.bootstrapper.exe
+if [ ! -f .paket/paket ]; then
+    dotnet tool install Paket --tool-path .paket
 fi
 
-if [ -f boot.fsx ]; then
-	fsharpi boot.fsx
-	rm boot.fsx
-	mono .paket/paket.exe install
-fi
+./.paket/paket restore 
 
-if [ ! -f paket.lock ]; then
-	mono .paket/paket.exe install
-fi
-
-mono packages/build/FAKE/tools/FAKE.exe "build.fsx" Dummy --fsiargs build.fsx $@
+dotnet packages/build/fake-cli/tools/netcoreapp2.1/any/fake-cli.dll build $@
