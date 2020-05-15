@@ -37,10 +37,22 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 		oldBitmap = SelectObject(hdcMem, bmp);
 
 		GetObject(bmp, sizeof(bitmap), &bitmap);
+		//BitBlt(hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcMem, 0, 0, SRCINVERT);
+
+		SetBkMode(hdc, TRANSPARENT);
 		BitBlt(hdc, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdcMem, 0, 0, SRCCOPY);
 
 		SelectObject(hdcMem, oldBitmap);
 		DeleteDC(hdcMem);
+
+
+		// We are going to paint the two DDB's in sequence to the destination.
+		// 1st the monochrome bitmap will be blitted using an AND operation to
+		// cut a hole in the destination. The color image will then be ORed
+		// with the destination, filling it into the hole, but leaving the
+		// surrounding area untouched.
+
+
 
 		EndPaint(hWnd, &ps);
 	}
@@ -59,13 +71,14 @@ static void init(HINSTANCE hInstance)
 	WNDCLASSEX wcex = { 0 };
 	wcex.cbSize = sizeof(WNDCLASSEX);
 
-	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.style = CS_HREDRAW | CS_VREDRAW | WS_EX_TRANSPARENT;
 	wcex.lpfnWndProc = WndProc;
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = hInstance;
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.lpszClassName = CLASS_NAME;
+	wcex.hbrBackground = (HBRUSH)0;
 	//wcex.hbrBackground = CreateSolidBrush(RGB(255, 0, 0));
 
 	RegisterClassExW(&wcex);
@@ -102,7 +115,7 @@ static DWORD WINAPI MyThreadFunction(LPVOID lpParam)
 	SetWindowLong(hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
 	SetWindowLong(hwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW | WS_EX_LAYERED | WS_EX_TRANSPARENT);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)state);
-	SetLayeredWindowAttributes(hwnd, RGB(255, 0, 0), 255, LWA_ALPHA);
+	SetLayeredWindowAttributes(hwnd, RGB(255, 0, 255), 255, LWA_COLORKEY);
 	SetWindowPos(hwnd, HWND_TOPMOST, x, y, w, h, SWP_FRAMECHANGED);
 	
 	ShowWindow(hwnd, SW_SHOW);
@@ -131,7 +144,7 @@ DllExport(DWORD) ShowSplash(int w, int h, int bits, const void* data)
 	init(hInstance);
 
 	auto bmp = CreateBitmap(w, h, 1, bits, data);
-
+	
 	//auto bmp = (HBITMAP)LoadImage(hInstance, L"C:\\Users\\Schorsch\\Desktop\\test.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE);
 
 	//BITMAP bm;

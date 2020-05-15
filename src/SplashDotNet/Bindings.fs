@@ -41,6 +41,13 @@ type Splash private() =
             }
         | _  ->
             let image = image.ToPixImage<byte>(Col.Format.BGRA)
+
+            image.GetMatrix<C4b>().Apply(fun c ->
+                if c.A < 127uy then C4b.Magenta
+                else c
+            ) |> ignore
+
+
             let p = SplashNative.ShowSplash(image.Size.X, image.Size.Y, 32, image.Volume.Data)
             { new IDisposable with
                 member x.Dispose() = SplashNative.CloseSplash(p)
