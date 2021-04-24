@@ -55,9 +55,10 @@ type Splash private() =
 
     static member show (file : string) =
         init()
-        let f = Path.Combine(Environment.CurrentDirectory, "DevIL.dll")
-        if not (File.Exists f) then
-            Aardvark.UnpackNativeDependencies(typeof<DevILSharp.AttributeBits>.Assembly)
-        let img = PixImage.Create file
+        let img =   
+            try
+                PixImage.Create file
+            with e -> 
+                PixImage<byte>(Col.Format.RGB, V2i(100, 100)) :> PixImage
         Splash.show img
         
